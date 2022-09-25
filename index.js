@@ -6,7 +6,7 @@ const app = express();
 
 // User login - Database
 const DB_USER = process.env.DB_USER;
-const DB_PASS = encondeURIComponent(process.env.DB_PASS);
+const DB_PASS = encodeURIComponent(process.env.DB_PASS);
 
 // Read JSON / Middlewares
 app.use(
