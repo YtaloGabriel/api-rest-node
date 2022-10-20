@@ -1,12 +1,17 @@
 // initial config
 require('dotenv').config();
+
 const express = require('express');
 const mongoose = require('mongoose');
+const cors = require('cors');
 const app = express();
 
 // User login - Database
 const DB_USER = process.env.DB_USER;
 const DB_PASS = encodeURIComponent(process.env.DB_PASS);
+
+// Random port Heroku
+const port = process.env.PORT || 3000;
 
 // Read JSON / Middlewares
 app.use(
@@ -16,15 +21,16 @@ app.use(
 );
 
 app.use(express.json());
+app.use(cors());
 
 // Initial Endpoint
 app.get('/', (req, res) => {
-  res.json({ message: 'Oi Express!' });
+  res.json({ message: 'Acesse /books' });
 });
 
 // API Routes
-const personRoutes = require('./routes/personRoutes');
-app.use('/person', personRoutes);
+const booksRoutes = require('./routes/booksRoutes');
+app.use('/books', booksRoutes);
 
 // Send port and connect to database
 mongoose
@@ -33,7 +39,7 @@ mongoose
   )
   .then(() => {
     console.log('Connected to MongoDB');
-    app.listen(3000);
+    app.listen(port);
   })
   .catch((err) => {
     console.log(err);
